@@ -1,59 +1,66 @@
-# Examples inspired by U. S. National Organic Standards
-
-ORGANIC_PRODUCE = [
-  "Strawberries",
-  "Potatoes",
-  "Grapes",
-  "Avocadoes",
-  "Asparagus"
-]
-
-CONVENTIONAL_PRODUCE = [
-  "Grapefruit",
-  "Pineapple",
-  "Oranges",
-  "Watermelon",
-  "Eggplant"
-]
-#######################################3
 =begin
-Build an array that contains both of the above arrays
-# This matrix will represent a produce storage room
-# Organic standards require that organic products be stored ABOVE conventional, not the other way around
-# Make sure conventional produce is first, on the 'zeroth' / 'bottom' shelf
+Given an Array of 2-element Arrays ( [ [food1, food2], [food3, # food4]....[foodN, foodM]]):
+ Build a new Array that contains strings where each pair of foods is
+ inserted into this template:
+  returns an Array of Strings of the form "I love element1 and element2 on my pizza"
+  （"I love (inner array element 0) and (inner array element 1) on my pizza"）
+As such, there should be a new String for each inner array, or pair
 =end
-def assembled_matrix
-    produce_storage_room=[CONVENTIONAL_PRODUCE,ORGANIC_PRODUCE]
-    produce_storage_room
-end
-###############################
+def join_ingredients(src)
+  newArray = []#先设一个新array
+    row_index = 0 #这个是i
+    while row_index < src.length do #src.length shows how many elements in the src array
+      #set inner array, a variable, equal to the i-th element in the array, which is another 2-element array
+      newArray<<"I love #{src[row_index][0]} and #{src[row_index][1]} on my pizza"
+                      #martix[row_index][element_index]
+      #这个也行
+      #result.push("I love #{row_index[0]} and #{row_index[1]} on my pizza")
+      row_index += 1
+    end
+    newArray
+  end
+##############################################################################################
+# src will be an array of [ [number1, number2], ... [numberN, numberM] ]
+# Produce a new Array that contains the larger number of each of the pairs
+# that are in the inner Arrays
+def find_greater_pair(src)
+  newArray = []#先设一个新array
+    row_index = 0 #这个是index 或者 i
+    while row_index < src.length do #src.length shows how many elements in the src array
+      #如果第一个>或=第二个数，把第一个数从最后插入newArray
+              # .push从end of array插入
+        newArray.push(src[row_index][0] >= src[row_index][1] ?    src[row_index][0] :   src[row_index][1])
+                       # 如果Array中第1位>=第2位 ?               T就插入Array中第1位   ：  F就插入Array中第2位
 =begin
-# Using Array LITERAL SYNTAX only, build another nested array that
-# uses the arrays of conventional and organic produce as before.
-# However, this time, sort each internal array alphabetically by the first character
-# the sorted_matrix method returns a nested array made from two constants with sorted elements
+#简单粗暴的表示方法
+      if src[row_index][0] > src[row_index][1] #row_index[0] will be the first element in the array etc.
+        newArray<<src[row_index][0]  #martix[row_index][element_index]
+      else
+       newArray<<src[row_index][1]
+      end
 =end
-def sorted_matrix
-  sorted_matrix=[CONVENTIONAL_PRODUCE.sort,ORGANIC_PRODUCE.sort] #.sort 可以排列
+      row_index += 1
+    end
+    newArray
+end
+################################################################
 =begin
-或者可以直接写出来，只适用于短AoA/Array,
-  sorted_matrix = [
-  ["Eggplant", "Grapefruit", "Oranges", "Pineapple", "Watermelon"],
-  ["Asparagus", "Avocadoes", "Grapes", "Potatoes", "Strawberries"]
-]
+# src will be an array of [ [number1, number2], ... [numberN, numberM] ]
+# if both numbers in the pair are even, then add both those numbers to the
+# total
+#
+# As a reminder any number % 2 will return 0 or 1. If the result is 0, then
+# the number was even. Review the operator documentation if you've forgotten
+# this!
 =end
-end
-#################################################
-# Given any matrix (array of arrays), a row index and a column index,
-# Return the matrix's content at that row and and column
-def matrix_lookup(matrix, row, column)
-  matrix[row][column]
-end
-#################################################
-# Given any matrix (array of arrays), a row index and a column index,
-# Update the matrix location at that row and column to have the value of new_value
-# Return the updated matrix
-def matrix_update(matrix, row, column, new_value)
-  matrix[row][column]=new_value
-  matrix
-end
+def total_even_pairs(src)
+total=0
+row_index=0 #这个是src的index 或者 i
+  while row_index < src.length do #src.length shows how many elements in the src array
+      if (src[row_index][0]%2==0 &&  src[row_index][1]%2==0) #当余数都=0，则俩都是even #
+      total+=(src[row_index][0]+src[row_index][1])
+      end
+    row_index += 1
+    end
+  total
+  end
